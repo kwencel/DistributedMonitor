@@ -1,4 +1,3 @@
-#include <queue>
 #include <distributed/DistributedMonitor.h>
 #include <distributed/DistributedConditionVariable.h>
 #include <communication/MpiSimpleCommunicator.h>
