@@ -21,7 +21,7 @@
  * Notice that both monitors share the same algorithm objects to act in a distributed fashion.
  * However both monitors could use completely different algorithms and it would work just fine.
  *
- * For example, you could make the first monitor use Ricart-Agrawala algorithm and the second one a Suzuki-Kisami
+ * For example, you could make the first monitor use Ricart-Agrawala algorithm and the second one a Suzuki-Kasami
  * algorithm without any issue. You will just have to provide another implementation of IDistributedExclusionAlgorithm
  */
 template <typename T>
