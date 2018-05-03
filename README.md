@@ -79,16 +79,16 @@ It will take care of locking the mutex at the beggining of the entry. It will al
 Do not unlock the mutex yourself. If you want to release the lock before the end of the entry, use an artificial scope and put `sync` object in it.
 
 ## Mutex and Condition Variable interface
-DistributedMutex and DistributedConditionVariable can be interacted with the similar way you would expect from their counterparts from the STL library.
+DistributedMutex and DistributedConditionVariable can be interacted with the similar way you would expect from their counterparts from the Stardard Template Library.
 DistributedMutex conforms to the Lockable concept so it can be used with constructs like `std::lock_guard`, `std::unique_lock` or `std::scoped_lock`.
 DistributedConditionVariable adapts the concept of a predicate argument from the standard library.
 However in STL the predicate argument is optional and you can wrap the condition variable in a `while` loop yourself.
 In case of DistributedConditionVariable you cannot do that and you have to provide a `Predicate` instead.
 
-You can use these classes without the need to use DistributedMonitor. They are completely functional standalone. However, you won't be able to synchronize updated states of shared variables between processes
+You can use these classes without the need to use DistributedMonitor. They are completely functional standalone. However, you won't be able to synchronize updated states of shared variables between processes.
 
 ## Thread safety
-At the moment classes from *Distributed* family ane **not** thread safe. They were meant to be used to procect resources shared by many distributed processes, not threads.
+At the moment classes from *Distributed* family ane **not** thread-safe. They are meant to be used to procect resources shared by many distributed processes, not threads.
 However, thread safety is the next thing I would like to implement in the future.
 
 ## Older CMake version?
