@@ -8,6 +8,7 @@ Pull requests are welcome :)
 ## Build prerequisites
     CMake 3.9 (it will probably compile using older versions too, see the last paragraph)
     C++17 compliant compiler
+    OpenMPI
     Boost 1.63.0 (serialization) [optional]
 
 ## Build instructions
