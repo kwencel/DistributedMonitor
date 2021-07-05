@@ -6,7 +6,7 @@
 class IDistributedExclusionAlgorithm {
 public:
 
-    /** Associates a mutex with the given algorithm. It is crucial to know which algorithms handles which mutexes. */
+    /** Associates a mutex with the given algorithm. It is crucial to know which algorithms handle which mutexes. */
     virtual void registerMutex(const MutexName& mutexName) = 0;
 
     virtual void unregisterMutex(const MutexName& mutexName) = 0;

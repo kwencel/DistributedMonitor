@@ -31,7 +31,7 @@ public:
         algorithm->notifyAll(name);
     }
 
-    const std::string& getName() const {
+    [[nodiscard]] const std::string& getName() const {
         return name;
     }
 

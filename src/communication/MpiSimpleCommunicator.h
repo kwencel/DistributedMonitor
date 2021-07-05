@@ -24,7 +24,7 @@ public:
 
 private:
 
-    Packet toPacket(RawPacket rawPacket, std::string message);
+    static Packet toPacket(RawPacket rawPacket, std::string message);
 
     MPI_Datatype mpiRawPacketType;
     std::recursive_mutex communicationMutex;

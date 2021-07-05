@@ -16,12 +16,12 @@ public:
             : communicationManager(std::move(communicationManager)) {
         /** Conditional variables waits handling **/
         this->communicationManager->subscribe(
-            [&](Packet packet) {
+            [&](const Packet& packet) {
                 const CondName& condName = packet.message;
                 std::lock_guard<std::mutex> guard(registerCVsMutex);
                 return packet.messageType == MessageType::COND_WAIT and contains(registeredCVs, condName);
             },
-            [&](Packet waitInfo) {
+            [&](const Packet& waitInfo) {
                 const CondName& condName = waitInfo.message;
                 std::lock_guard<std::mutex> guard(conditionalWaitsMutex);
                 conditionalWaits[condName].insert(waitInfo);
@@ -29,12 +29,12 @@ public:
         );
         /** Conditional variables waits ends handling **/
         this->communicationManager->subscribe(
-            [&](Packet packet) {
+            [&](const Packet& packet) {
                 const CondName& condName = packet.message;
                 std::lock_guard<std::mutex> guard(registerCVsMutex);
                 return packet.messageType == MessageType::COND_WAIT_END and contains(registeredCVs, condName);
             },
-            [&](Packet waitEndInfo) {
+            [&](const Packet& waitEndInfo) {
                 const CondName& condName = waitEndInfo.message;
                 {
                     std::lock_guard<std::mutex> guard(conditionalWaitsMutex);
@@ -64,11 +64,11 @@ public:
         /** Conditional variable notify handling **/
         SubscriptionId notifySubscriptionId = communicationManager->subscribe(
                 /** Predicate function - Accessed by Receiving Thread **/
-                [&](Packet packet) {
+                [&](const Packet& packet) {
                     return packet.messageType == MessageType::COND_NOTIFY and packet.message == condName;
                 },
                 /** Callback function - Accessed by Receiving Thread **/
-                [&](Packet notification) {
+                [&](const Packet& notification) {
                     realCond.notify_one();
                 }
         );
@@ -80,11 +80,11 @@ public:
 
         SubscriptionId confirmationsSubscriptionId = communicationManager->subscribe(
                 /** Predicate function - Accessed by Receiving Thread **/
-                [&](Packet packet) {
+                [&](const Packet& packet) {
                     return packet.messageType == MessageType::COND_WAIT_END_CONFIRM and packet.message == condName;
                 },
                 /** Callback function - Accessed by Receiving Thread **/
-                [&](Packet confirmation) {
+                [&](const Packet& confirmation) {
                     std::unique_lock<std::mutex> guard(allConfirmationsMutex);
                     receivedConfirmations.insert(confirmation);
                     if (areConfirmationsComplete(receivedConfirmations)) {
@@ -121,7 +121,7 @@ public:
         }
         std::unordered_set<ProcessId> recipients;
         const std::set<Packet>& waiting = conditionalWaits[condName];
-        std::transform(waiting.begin(), waiting.end(), std::inserter(recipients, recipients.begin()), [&](Packet packet) {
+        std::transform(waiting.begin(), waiting.end(), std::inserter(recipients, recipients.begin()), [&](const Packet& packet) {
             return packet.source;
         });
         guard.unlock();

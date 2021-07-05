@@ -27,7 +27,7 @@ public:
         }
     }
 
-    SubscriptionId subscribe(SubscriptionPredicate predicate, SubscriptionCallback callback) {
+    SubscriptionId subscribe(const SubscriptionPredicate& predicate, const SubscriptionCallback& callback) {
         std::lock_guard<std::mutex> lock(subscriptionMutex);
         subscriptions[subscriptionSeqNo] = {predicate, callback};
         return subscriptionSeqNo++;
@@ -67,7 +67,7 @@ public:
 
 private:
 
-    static const std::string printPacket(MessageType messageType, const std::string& message) {
+    static std::string printPacket(MessageType messageType, const std::string& message) {
         return util::concat("[messageType: ", messageType, ", message: ", message, ']');
     }
 
@@ -94,7 +94,7 @@ private:
                     anyCallbackInvoked = true;
                 }
             }
-            if (not anyCallbackInvoked and not (packet.messageType == MessageType::COND_NOTIFY)) {
+            if (not anyCallbackInvoked and packet.messageType != MessageType::COND_NOTIFY) {
                 std::string error = "WARNING! No callback invoked for packet with TS " + std::to_string(packet.lamportTime) +
                                     " " + printPacket(packet.messageType, packet.message);
                 Logger::log(error);

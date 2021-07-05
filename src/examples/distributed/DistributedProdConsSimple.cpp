@@ -61,11 +61,11 @@ public:
         return request;
     }
 
-    bool isFull() const {
+    [[nodiscard]] bool isFull() const {
         return count == MAX_QUEUE_SIZE;
     }
 
-    bool isEmpty() const {
+    [[nodiscard]] bool isEmpty() const {
         return count == 0;
     }
 

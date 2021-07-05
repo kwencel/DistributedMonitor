@@ -4,13 +4,8 @@
 #include <distributed/DistributedConditionVariable.h>
 #include "BoostSerializer.h"
 
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/set.hpp>
-#include <boost/serialization/map.hpp>
-#include <boost/serialization/list.hpp>
 #include <boost/serialization/deque.hpp>
 #include <boost/serialization/queue.hpp>
-#include <boost/serialization/stack.hpp>
 
 #define MAX_QUEUE_SIZE 5
 
@@ -56,11 +51,11 @@ public:
         return request;
     }
 
-    bool isFull() const {
+    [[nodiscard]] bool isFull() const {
         return queue.size() == maxSize;
     }
 
-    bool isEmpty() const {
+    [[nodiscard]] bool isEmpty() const {
         return queue.empty();
     }
 

@@ -46,7 +46,7 @@ public:
         return owned.load();
     }
 
-    const std::string& getName() const {
+    [[nodiscard]] const std::string& getName() const {
         return name;
     }
 

@@ -16,7 +16,7 @@ file(GLOB SOURCE_FILES "src/algorithms/*" "src/communication/*" "src/distributed
 include_directories(src)
 
 # Local examples for comparison with distributed ones. No distributed algorithms nor interprocess communication.
-# They only use synchronization mechanismsavailable in C++ standard library
+# They only use synchronization mechanisms available in C++ standard library
 add_executable(LocalProdConsSingleCV src/examples/local/LocalProdConsSingleCV.cpp)
 target_link_libraries(LocalProdConsSingleCV ${CMAKE_THREAD_LIBS_INIT})
 

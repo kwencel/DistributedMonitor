@@ -25,10 +25,10 @@ public:
 
         /** Restore the state based on the SYNC message **/
         syncSubscription = this->communicationManager->subscribe(
-                [&](Packet packet) {
+                [&](const Packet& packet) {
                     return packet.messageType == MessageType::SYNC and extractMutexName(packet.message) == mutex.getName();
                 },
-                [&](Packet data) {
+                [&](const Packet& data) {
                     return restoreState(extractSerializedData(data.message));
                 }
         );
@@ -40,7 +40,7 @@ public:
 
 private:
 
-    static const std::string_view extractMutexName(const std::string& message) {
+    static std::string_view extractMutexName(const std::string& message) {
         return std::string_view(message).substr(1, static_cast<std::string_view::size_type>(message[0]));
     }
 

@@ -55,8 +55,8 @@ struct RawPacket {
 };
 
 using Predicate = std::function<bool ()>;
-using SubscriptionPredicate = std::function<bool (Packet)>;
-using SubscriptionCallback = std::function<void (Packet)>;
+using SubscriptionPredicate = std::function<bool (const Packet&)>;
+using SubscriptionCallback = std::function<void (const Packet&)>;
 
 inline void hash_combine(std::size_t& seed) { }
 

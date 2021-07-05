@@ -16,12 +16,12 @@ public:
             : communicationManager(std::move(communicationManager)) {
         /** Mutex requests handling **/
         this->communicationManager->subscribe(
-                [&](Packet packet) {
+                [&](const Packet& packet) {
                     const MutexName& mutexName = packet.message;
                     std::lock_guard<std::mutex> guard(registeredMutexesMutex);
                     return packet.messageType == MessageType::MUTEX_REQUEST and contains(registeredMutexes, mutexName);
                 },
-                [&](Packet request) {
+                [&](const Packet& request) {
                     processRequest(request);
                 }
         );
@@ -45,11 +45,11 @@ public:
 
         SubscriptionId subscriptionId = communicationManager->subscribe(
                 /** Predicate function - Accessed by Receiving Thread **/
-                [&](Packet packet) {
+                [&](const Packet& packet) {
                     return packet.messageType == MessageType::MUTEX_AGREEMENT and packet.message == mutexName;
                 },
                 /** Callback function - Accessed by Receiving Thread **/
-                [&](Packet agreement) {
+                [&](const Packet& agreement) {
                     std::unique_lock<std::mutex> guard(allAgreementsMutex);
                     addAgreement(receivedAgreements, agreement);
                     auto remainingAgreements = communicationManager->getNumberOfProcesses() - 1 - receivedAgreements.size();

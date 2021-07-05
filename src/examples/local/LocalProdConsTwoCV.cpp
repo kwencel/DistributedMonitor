@@ -37,11 +37,11 @@ public:
         return request;
     }
 
-    bool isFull() const {
+    [[nodiscard]] bool isFull() const {
         return queue.size() >= maxSize;
     }
 
-    bool isEmpty() const {
+    [[nodiscard]] bool isEmpty() const {
         return queue.empty();
     }
 };
