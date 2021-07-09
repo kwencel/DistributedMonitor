@@ -12,6 +12,7 @@ using SubscriptionId = std::size_t;
 using LamportTime = unsigned long;
 using MutexName = std::string;
 using CondName = std::string;
+using Predicate = std::function<bool ()>;
 
 enum class MessageType : unsigned char {
     MUTEX_REQUEST, MUTEX_AGREEMENT, COND_WAIT, COND_WAIT_END, COND_WAIT_END_CONFIRM, COND_NOTIFY, SYNC
@@ -33,49 +34,7 @@ inline std::string& operator+ (std::string& str, MessageType messageType) {
     return str.append(messageTypeString[messageType]);
 }
 
-struct Packet {
-    LamportTime lamportTime;
-    ProcessId source;
-    MessageType messageType;
-    std::string message;
-
-    inline bool operator == (const Packet& other) const {
-        return source == other.source && messageType == other.messageType && message == other.message;
-    }
-
-    inline bool operator < (const Packet& other) const {
-        return lamportTime < other.lamportTime;
-    }
-};
-
-struct RawPacket {
-    uint64_t lamportTime;
-    int32_t source;
-    uint8_t messageType;
-    uint32_t nextPacketLength;
-};
-
-using Predicate = std::function<bool ()>;
-using SubscriptionPredicate = std::function<bool (const Packet&)>;
-using SubscriptionCallback = std::function<void (const Packet&)>;
-
 namespace std {
-    template<>
-    struct hash<Packet> {
-        inline std::size_t operator()(const Packet& packet) const {
-            std::size_t hash = 0;
-            hashCombine(hash, packet.source, packet.messageType, packet.message);
-            return hash;
-        }
-    };
-    template<>
-    struct hash<RawPacket> {
-        inline std::size_t operator()(const RawPacket& packet) const {
-            std::size_t hash = 0;
-            hashCombine(hash, packet.source, packet.messageType, packet.nextPacketLength);
-            return hash;
-        }
-    };
     template<>
     struct hash<MessageType> {
         inline int operator()(const MessageType& messageType) const {
