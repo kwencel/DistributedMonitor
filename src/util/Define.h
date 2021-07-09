@@ -3,6 +3,7 @@
 
 #include <map>
 #include <functional>
+#include "Utils.h"
 
 #define LOGGER_NUMBER_DIGITS 7
 
@@ -58,21 +59,12 @@ using Predicate = std::function<bool ()>;
 using SubscriptionPredicate = std::function<bool (const Packet&)>;
 using SubscriptionCallback = std::function<void (const Packet&)>;
 
-inline void hash_combine(std::size_t& seed) { }
-
-template <typename T, typename... Rest>
-inline void hash_combine(std::size_t& seed, const T& v, Rest... rest) {
-    std::hash<T> hasher;
-    seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-    hash_combine(seed, rest...);
-}
-
 namespace std {
     template<>
     struct hash<Packet> {
         inline std::size_t operator()(const Packet& packet) const {
             std::size_t hash = 0;
-            hash_combine(hash, packet.source, packet.messageType, packet.message);
+            hashCombine(hash, packet.source, packet.messageType, packet.message);
             return hash;
         }
     };
@@ -80,7 +72,7 @@ namespace std {
     struct hash<RawPacket> {
         inline std::size_t operator()(const RawPacket& packet) const {
             std::size_t hash = 0;
-            hash_combine(hash, packet.source, packet.messageType, packet.nextPacketLength);
+            hashCombine(hash, packet.source, packet.messageType, packet.nextPacketLength);
             return hash;
         }
     };

@@ -1,7 +1,7 @@
 #ifndef DISTRIBUTEDMONITOR_IDISTRIBUTEDEXCLUSIONALGORITHM_H
 #define DISTRIBUTEDMONITOR_IDISTRIBUTEDEXCLUSIONALGORITHM_H
 
-#include <util/define.h>
+#include <util/Define.h>
 
 class IDistributedExclusionAlgorithm {
 public:

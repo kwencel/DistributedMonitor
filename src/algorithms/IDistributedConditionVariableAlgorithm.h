@@ -1,7 +1,7 @@
 #ifndef DISTRIBUTEDMONITOR_IDISTRIBUTEDCONDITIONVARIABLEALGORITHM_H
 #define DISTRIBUTEDMONITOR_IDISTRIBUTEDCONDITIONVARIABLEALGORITHM_H
 
-#include <util/define.h>
+#include <util/Define.h>
 #include <distributed/DistributedMutex.h>
 
 class IDistributedConditionVariableAlgorithm {

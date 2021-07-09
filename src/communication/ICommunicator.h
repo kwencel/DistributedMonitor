@@ -2,7 +2,7 @@
 #define DISTRIBUTEDMONITOR_ICOMMUNICATOR_H
 
 #include <unordered_set>
-#include <util/define.h>
+#include <util/Define.h>
 
 class ICommunicator {
 public:
